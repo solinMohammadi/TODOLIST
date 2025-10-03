@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>انجام بده!</title>
+  <style>
+    /* استایل‌های اولیه برای خوانایی بیشتر (فارسی و RTL) */
+    body {
+      font-family: Tahoma, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      direction: rtl; /* تنظیم جهت متن به راست به چپ */
+      text-align: right;
+    }
+    .header {
+      background-color: #007bff;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 15px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    .nav-links a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .todo-section {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    .todo-section h2 {
+      color: #007bff;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+    .todo-item {
+      border: 1px solid #eee;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fafafa;
+    }
+    .todo-item.completed {
+      background-color: #e6ffe6;
+      text-decoration: line-through;
+      color: #888;
+    }
+    .todo-actions button {
+      margin-right: 5px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .btn-edit { background-color: #ffc107; color: #333; }
+    .btn-delete { background-color: #dc3545; color: white; }
+    .btn-save { background-color: #28a745; color: white; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>انجام بده!</h1>
+  <div class="nav-links">
+    <a href="login.html">ورود</a>
+    <a href="register.html">ثبت نام</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- بخش افزودن کار جدید -->
+  <div class="todo-section add-task">
+    <h2>افزودن کار جدید</h2>
+    <form id="addTaskForm">
+      <label for="titleInput">عنوان:</label>
+      <input type="text" id="titleInput" name="title" required style="width: 98%; padding: 8px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #ccc;">
+      <br>
+      <label for="descriptionInput">توضیحات:</label>
+      <textarea id="descriptionInput" name="description" rows="3" style="width: 98%; padding: 8px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #ccc;"></textarea>
+      <br>
+      <!-- دکمه‌ای که در واقعیت باید جاوااسکریپت را فراخوانی کند -->
+      <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">ثبت کار</button>
+    </form>
+  </div>
+
+  <!-- لیست کارهای فعلی -->
+  <div class="todo-section task-list">
+    <h2>لیست وظایف</h2>
+
+    <!-- این بخش با جاوااسکریپت پر می‌شود -->
+    <div class="todo-item" data-id="1">
+      <div>
+        <strong>عنوان کار ۱</strong>
+        <p>توضیحات مختصر کار ۱.</p>
+        <small>تاریخ ایجاد: 2024/10/02</small>
+      </div>
+      <div class="todo-actions">
+        <!-- دکمه‌های عملیاتی -->
+        <button class="btn-edit" onclick="handleEdit(1)">ویرایش (Update)</button>
+        <button class="btn-delete" onclick="handleDelete(1)">حذف</button>
+        <!-- دکمه ذخیره که در حالت ویرایش فعال می‌شود -->
+        <button class="btn-save" style="display: none;" onclick="handleSave(1)">ذخیره</button>
+      </div>
+    </div>
+
+    <div class="todo-item completed" data-id="2">
+      <div>
+        <strong>عنوان کار ۲ (تکمیل شده)</strong>
+        <p>این کار انجام شده است.</p>
+        <small>تاریخ آپدیت: 2024/10/01</small>
+      </div>
+      <div class="todo-actions">
+        <button class="btn-edit" onclick="handleEdit(2)">ویرایش (Update)</button>
+        <button class="btn-delete" onclick="handleDelete(2)">حذف</button>
+        <button class="btn-save" style="display: none;" onclick="handleSave(2)">ذخیره</button>
+      </div>
+    </div>
+
+    <p id="noTasks" style="display: none; text-align: center; color: #888;">لیستی برای نمایش وجود ندارد.</p>
+  </div>
+
+</div>
+
+<script>
+
+  // تابع‌های ساختگی برای دکمه‌ها
+  function handleEdit(id) {
+    alert('عملیات ویرایش (Update) برای آیتم با آیدی ' + id + ' فراخوانی شد.');
+    // در اینجا باید المان‌ها را به حالت ویرایش ببرید
+    const item = document.querySelector(`.todo-item[data-id="${id}"]`);
+    item.querySelector('.btn-edit').style.display = 'none';
+    item.querySelector('.btn-save').style.display = 'inline-block';
+  }
+
+  function handleDelete(id) {
+    if (confirm('آیا از حذف این کار مطمئن هستید؟')) {
+      alert('عملیات حذف (Delete) برای آیتم با آیدی ' + id + ' فراخوانی شد.');
+      // در اینجا باید آیتم از DOM حذف شود یا در بک‌اند حذف گردد
+      document.querySelector(`.todo-item[data-id="${id}"]`).remove();
+    }
+  }
+
+  function handleSave(id) {
+    alert('عملیات ذخیره (Save/Update) برای آیتم با آیدی ' + id + ' فراخوانی شد.');
+    // در اینجا باید داده‌های ویرایش شده را به بک‌اند ارسال کنید
+    const item = document.querySelector(`.todo-item[data-id="${id}"]`);
+    item.querySelector('.btn-edit').style.display = 'inline-block';
+    item.querySelector('.btn-save').style.display = 'none';
+  }
+
+  // مدیریت افزودن کار جدید (فقط جلوگیری از بارگذاری مجدد صفحه)
+  document.getElementById('addTaskForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('عملیات افزودن (Add) و ذخیره (Save) کار جدید فراخوانی شد.');
+    // در اینجا باید داده‌ها به بک‌اند ارسال شوند و سپس لیست به‌روز شود.
+    this.reset();
+  });
+
+
+  // کد زیر را به بخش <script> در انتهای index.html اضافه کنید:
+
+  document.getElementById('addTaskForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // جلوگیری از ارسال سنتی فرم
+
+    // ۱. جمع‌آوری داده‌ها از فیلدها
+    const title = document.getElementById('titleInput').value;
+    const description = document.getElementById('descriptionInput').value;
+
+    // شیء جدید TODO که به بک‌اند ارسال می‌شود
+    const newTodo = {
+      title: title,
+      description: description,
+      copleted: false
+      // creationDate و updateDate معمولاً در سمت سرور تنظیم می‌شوند
+    };
+
+    // ۲. ارسال داده‌ها به API بک‌اند با متد POST
+    // **نکته مهم:** آدرس /api/todos را با آدرس واقعی بک‌اند خود جایگزین کنید.
+    fetch('/api/todos', {
+      method: 'POST', // متد POST برای ایجاد (Save) یک منبع جدید استفاده می‌شود
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newTodo) // تبدیل شیء جاوااسکریپت به رشته JSON
+    })
+            .then(response => {
+              // بررسی می‌کند که آیا پاسخ موفقیت‌آمیز بوده است (کد 200 یا 201)
+              if (!response.ok) {
+                throw new Error(`خطا در ذخیره کار: ${response.statusText}`);
+              }
+              return response.json(); // فرض می‌کنیم بک‌اند آیتم TODO ذخیره‌شده را برمی‌گرداند
+            })
+            .then(savedTodo => {
+              // ۳. در صورت موفقیت: به‌روزرسانی رابط کاربری (UI)
+              alert(`کار "${savedTodo.title}" با موفقیت ذخیره شد!`);
+
+              // اینجا باید تابع نمایش کار جدید در لیست را فراخوانی کنید
+              // (مثلاً: displayNewTodo(savedTodo);)
+
+              // پاک کردن فرم پس از ارسال موفق
+              document.getElementById('addTaskForm').reset();
+            })
+            .catch(error => {
+              // ۴. مدیریت خطا
+              console.error('There was a problem with the fetch operation:', error);
+              alert('خطایی در ذخیره کار رخ داد.');
+            });
+  });
+
+</script>
+</body>
+</html>
